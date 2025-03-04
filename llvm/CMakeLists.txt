@@ -487,6 +487,7 @@ set(LLVM_ALL_TARGETS
   WebAssembly
   X86
   XCore
+  AscendGeneric
   )
 
 set(LLVM_ALL_EXPERIMENTAL_TARGETS
