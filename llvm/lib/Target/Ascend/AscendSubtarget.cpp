@@ -10,8 +10,8 @@ using namespace llvm;
 #define GET_SUBTARGETINFO_CTOR
 #include "AscendGenSubtargetInfo.inc"
 
-AscendSubtarget::AscendSubtarget(const StringRef &CPU, const StringRef &TuneCPU,
-                           const StringRef &FS, const TargetMachine &TM)
-    : AscendGenSubtargetInfo(TM.getTargetTriple(), CPU, TuneCPU, FS) {
+AscendSubtarget::AscendSubtarget(const Triple &TT, const std::string &CPU,
+                           const std::string &FS, const TargetMachine &TM)
+    : AscendGenSubtargetInfo(TT, CPU, /*TuneCPU=*/CPU, FS), TLInfo(TM, *this) {
   ASCEND_DUMP_CYAN
 }

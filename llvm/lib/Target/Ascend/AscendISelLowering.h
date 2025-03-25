@@ -22,6 +22,19 @@ enum NodeType : unsigned {
 
 } // namespace AscendISD
 
+class AscendTargetLowering : public TargetLowering {
+public:
+  explicit AscendTargetLowering(const TargetMachine &TM, const AscendSubtarget &STI);
+
+  /// This method returns the name of a target specific DAG node.
+  const char *getTargetNodeName(unsigned Opcode) const override;
+
+  AscendSubtarget const &getSubtarget() const { return STI; }
+
+private:
+  const AscendSubtarget &STI;
+};
+
 } // end namespace llvm
 
 #endif // LLVM_LIB_TARGET_ASCEND_ASCENDISELLOWERING_H

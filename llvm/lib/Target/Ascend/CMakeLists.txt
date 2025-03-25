@@ -17,6 +17,7 @@ add_llvm_target(AscendCodeGen
   AscendSubtarget.cpp
   AscendAsmPrinter.cpp
   AscendISelDagToDag.cpp
+  AscendISelLowering.cpp
 
   LINK_COMPONENTS
   CodeGen
