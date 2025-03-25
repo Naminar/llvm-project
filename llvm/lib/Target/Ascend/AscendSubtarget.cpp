@@ -13,6 +13,6 @@ using namespace llvm;
 AscendSubtarget::AscendSubtarget(const Triple &TT, const std::string &CPU,
                            const std::string &FS, const TargetMachine &TM)
     : AscendGenSubtargetInfo(TT, CPU, /*TuneCPU=*/CPU, FS), TLInfo(TM, *this),
-      FrameLowering(*this) {
+      FrameLowering(*this), InstrInfo() {
   ASCEND_DUMP_CYAN
 }

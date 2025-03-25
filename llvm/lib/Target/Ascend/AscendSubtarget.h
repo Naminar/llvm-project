@@ -4,7 +4,9 @@
 #include "Ascend.h"
 #include "AscendFrameLowering.h"
 #include "AscendISelLowering.h"
+#include "AscendInstrInfo.h"
 #include "AscendRegisterInfo.h"
+#include "llvm/CodeGen/SelectionDAGTargetInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
 #define GET_SUBTARGETINFO_HEADER
@@ -16,6 +18,8 @@ class AscendSubtarget : public AscendGenSubtargetInfo {
   AscendTargetLowering TLInfo;
   AscendFrameLowering FrameLowering;
   AscendRegisterInfo RegInfo;
+  AscendInstrInfo InstrInfo;
+  SelectionDAGTargetInfo TSInfo;
 
 public:
   AscendSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -36,6 +40,11 @@ public:
   const AscendRegisterInfo *getRegisterInfo() const override {
     ASCEND_DUMP_CYAN
     return &RegInfo;
+  }
+  const AscendInstrInfo *getInstrInfo() const override { return &InstrInfo; }
+  const SelectionDAGTargetInfo *getSelectionDAGInfo() const override {
+    ASCEND_DUMP_CYAN
+    return &TSInfo;
   }
 };
 
