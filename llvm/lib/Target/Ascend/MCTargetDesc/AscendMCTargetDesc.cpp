@@ -3,6 +3,7 @@
 #include "TargetInfo/AscendTargetInfo.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCRegisterInfo.h"
+#include "llvm/MC/MCSubtargetInfo.h"
 #include "llvm/MC/TargetRegistry.h"
 
 using namespace llvm;
@@ -12,6 +13,9 @@ using namespace llvm;
 
 #define GET_INSTRINFO_MC_DESC
 #include "AscendGenInstrInfo.inc"
+
+#define GET_SUBTARGETINFO_MC_DESC
+#include "AscendGenSubtargetInfo.inc"
 
 static MCRegisterInfo *createAscendMCRegisterInfo(const Triple &TT) {
   ASCEND_DUMP_MAGENTA
@@ -27,6 +31,12 @@ static MCInstrInfo *createAscendMCInstrInfo() {
   return X;
 }
 
+static MCSubtargetInfo *createAscendMCSubtargetInfo(const Triple &TT,
+                                                 StringRef CPU, StringRef FS) {
+  ASCEND_DUMP_MAGENTA
+  return createAscendMCSubtargetInfoImpl(TT, CPU, /*TuneCPU*/ CPU, FS);
+}
+
 // We need to define this function for linking succeed
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeAscendTargetMC() {
   ASCEND_DUMP_MAGENTA
@@ -35,4 +45,7 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeAscendTargetMC() {
   TargetRegistry::RegisterMCRegInfo(TheAscendTarget, createAscendMCRegisterInfo);
   // Register the MC instruction info.
   TargetRegistry::RegisterMCInstrInfo(TheAscendTarget, createAscendMCInstrInfo);
+  // Register the MC subtarget info.
+  TargetRegistry::RegisterMCSubtargetInfo(TheAscendTarget,
+                                          createAscendMCSubtargetInfo);
 }

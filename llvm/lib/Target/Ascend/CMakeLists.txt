@@ -4,6 +4,7 @@ set(LLVM_TARGET_DEFINITIONS Ascend.td)
 
 tablegen(LLVM AscendGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM AscendGenInstrInfo.inc -gen-instr-info)
+tablegen(LLVM AscendGenSubtargetInfo.inc -gen-subtarget)
 
 add_public_tablegen_target(AscendCommonTableGen)
 
@@ -11,6 +12,7 @@ add_llvm_target(AscendCodeGen
   AscendTargetMachine.cpp
   AscendRegisterInfo.cpp
   AscendInstrInfo.cpp
+  AscendSubtarget.cpp
 
   LINK_COMPONENTS
   CodeGen
