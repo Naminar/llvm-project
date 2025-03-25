@@ -6,6 +6,7 @@ tablegen(LLVM AscendGenRegisterInfo.inc -gen-register-info)
 tablegen(LLVM AscendGenInstrInfo.inc -gen-instr-info)
 tablegen(LLVM AscendGenSubtargetInfo.inc -gen-subtarget)
 tablegen(LLVM AscendGenMCPseudoLowering.inc -gen-pseudo-lowering)
+tablegen(LLVM AscendGenDAGISel.inc -gen-dag-isel)
 
 add_public_tablegen_target(AscendCommonTableGen)
 
@@ -15,6 +16,7 @@ add_llvm_target(AscendCodeGen
   AscendInstrInfo.cpp
   AscendSubtarget.cpp
   AscendAsmPrinter.cpp
+  AscendISelDagToDag.cpp
 
   LINK_COMPONENTS
   CodeGen
@@ -23,6 +25,7 @@ add_llvm_target(AscendCodeGen
   Target
   AscendInfo
   AsmPrinter
+  SelectionDAG
 
   ADD_TO_COMPONENT
   Ascend

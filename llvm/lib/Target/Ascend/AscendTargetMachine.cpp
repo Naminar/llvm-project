@@ -34,8 +34,13 @@ public:
   AscendPassConfig(AscendTargetMachine &TM, PassManagerBase &PM)
       : TargetPassConfig(TM, PM) {}
 
+  AscendTargetMachine &getAscendTargetMachine() const {
+    return getTM<AscendTargetMachine>();
+  }
+
   bool addInstSelector() override {
     ASCEND_DUMP_CYAN
+    addPass(createAscendISelDag(getAscendTargetMachine(), getOptLevel()));
     return false;
   }
 };

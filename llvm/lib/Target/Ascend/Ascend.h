@@ -3,6 +3,7 @@
 
 #include "MCTargetDesc/AscendMCTargetDesc.h"
 #include "llvm/Support/raw_ostream.h"
+#include "llvm/Target/TargetMachine.h"
 
 #define ASCEND_DUMP(Color)                                                        \
   {                                                                            \
@@ -18,5 +19,12 @@
 #define ASCEND_DUMP_CYAN ASCEND_DUMP(llvm::raw_ostream::CYAN)
 #define ASCEND_DUMP_MAGENTA ASCEND_DUMP(llvm::raw_ostream::MAGENTA)
 #define ASCEND_DUMP_WHITE ASCEND_DUMP(llvm::raw_ostream::WHITE)
+namespace llvm {
+class AscendTargetMachine;
+class FunctionPass;
+
+FunctionPass *createAscendISelDag(AscendTargetMachine &TM, CodeGenOptLevel OptLevel);
+
+} // namespace llvm
 
 #endif // LLVM_LIB_TARGET_Ascend_Ascend_H
