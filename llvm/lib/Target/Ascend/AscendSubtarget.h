@@ -4,6 +4,7 @@
 #include "Ascend.h"
 #include "AscendFrameLowering.h"
 #include "AscendISelLowering.h"
+#include "AscendRegisterInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
 #define GET_SUBTARGETINFO_HEADER
@@ -14,6 +15,7 @@ namespace llvm {
 class AscendSubtarget : public AscendGenSubtargetInfo {
   AscendTargetLowering TLInfo;
   AscendFrameLowering FrameLowering;
+  AscendRegisterInfo RegInfo;
 
 public:
   AscendSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -30,6 +32,10 @@ public:
   const AscendFrameLowering *getFrameLowering() const override {
     ASCEND_DUMP_CYAN
     return &FrameLowering;
+  }
+  const AscendRegisterInfo *getRegisterInfo() const override {
+    ASCEND_DUMP_CYAN
+    return &RegInfo;
   }
 };
 
