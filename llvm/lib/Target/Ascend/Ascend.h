@@ -22,7 +22,19 @@
 namespace llvm {
 class AscendTargetMachine;
 class FunctionPass;
+class AscendSubtarget;
+class AsmPrinter;
+class InstructionSelector;
+class MCInst;
+class MCOperand;
+class MachineInstr;
+class MachineOperand;
+class PassRegistry;
 
+bool lowerAscendMachineInstrToMCInst(const MachineInstr *MI, MCInst &OutMI,
+                                  AsmPrinter &AP);
+bool LowerAscendMachineOperandToMCOperand(const MachineOperand &MO,
+                                       MCOperand &MCOp, const AsmPrinter &AP);
 FunctionPass *createAscendISelDag(AscendTargetMachine &TM, CodeGenOptLevel OptLevel);
 
 } // namespace llvm

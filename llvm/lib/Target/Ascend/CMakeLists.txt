@@ -20,6 +20,7 @@ add_llvm_target(AscendCodeGen
   AscendAsmPrinter.cpp
   AscendISelDagToDag.cpp
   AscendISelLowering.cpp
+  AscendMCInstLower.cpp
 
   LINK_COMPONENTS
   CodeGen
