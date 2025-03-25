@@ -1,10 +1,13 @@
 #include "MCTargetDesc/AscendInfo.h"
 #include "Ascend.h"
+#include "AscendMCAsmInfo.h"
 #include "TargetInfo/AscendTargetInfo.h"
+#include "llvm/MC/MCDwarf.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCSubtargetInfo.h"
 #include "llvm/MC/TargetRegistry.h"
+#include "llvm/Support/ErrorHandling.h"
 
 using namespace llvm;
 
@@ -37,10 +40,22 @@ static MCSubtargetInfo *createAscendMCSubtargetInfo(const Triple &TT,
   return createAscendMCSubtargetInfoImpl(TT, CPU, /*TuneCPU*/ CPU, FS);
 }
 
+static MCAsmInfo *createAscendMCAsmInfo(const MCRegisterInfo &MRI,
+                                     const Triple &TT,
+                                     const MCTargetOptions &Options) {
+  ASCEND_DUMP_MAGENTA
+  MCAsmInfo *MAI = new AscendELFMCAsmInfo(TT);
+  unsigned SP = MRI.getDwarfRegNum(Ascend::R1, true);
+  MCCFIInstruction Inst = MCCFIInstruction::cfiDefCfa(nullptr, SP, 0);
+  MAI->addInitialFrameState(Inst);
+  return MAI;
+}
+
 // We need to define this function for linking succeed
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeAscendTargetMC() {
   ASCEND_DUMP_MAGENTA
   Target &TheAscendTarget = getTheAscendTarget();
+  RegisterMCAsmInfoFn X(TheAscendTarget, createAscendMCAsmInfo);
   // Register the MC register info.
   TargetRegistry::RegisterMCRegInfo(TheAscendTarget, createAscendMCRegisterInfo);
   // Register the MC instruction info.
