@@ -3,12 +3,14 @@ add_llvm_component_group(Ascend)
 set(LLVM_TARGET_DEFINITIONS Ascend.td)
 
 tablegen(LLVM AscendGenRegisterInfo.inc -gen-register-info)
+tablegen(LLVM AscendGenInstrInfo.inc -gen-instr-info)
 
 add_public_tablegen_target(AscendCommonTableGen)
 
 add_llvm_target(AscendCodeGen
   AscendTargetMachine.cpp
   AscendRegisterInfo.cpp
+  AscendInstrInfo.cpp
 
   LINK_COMPONENTS
   CodeGen

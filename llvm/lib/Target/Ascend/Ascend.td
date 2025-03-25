@@ -1,4 +1,8 @@
 include "llvm/Target/Target.td"
 include "AscendRegisterInfo.td"
+include "AscendInstrInfo.td"
 
-def Ascend : Target;
+def AscendInstrInfo : InstrInfo;
+def Ascend : Target {
+  let InstructionSet = AscendInstrInfo;
+}
