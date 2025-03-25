@@ -2,6 +2,7 @@
 #define LLVM_LIB_TARGET_ASCEND_ASCENDSUBTARGET_H
 
 #include "Ascend.h"
+#include "AscendFrameLowering.h"
 #include "AscendISelLowering.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
 
@@ -12,6 +13,7 @@ namespace llvm {
 
 class AscendSubtarget : public AscendGenSubtargetInfo {
   AscendTargetLowering TLInfo;
+  AscendFrameLowering FrameLowering;
 
 public:
   AscendSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
@@ -24,6 +26,10 @@ public:
   const AscendTargetLowering *getTargetLowering() const override {
     ASCEND_DUMP_CYAN
     return &TLInfo;
+  }
+  const AscendFrameLowering *getFrameLowering() const override {
+    ASCEND_DUMP_CYAN
+    return &FrameLowering;
   }
 };
 
