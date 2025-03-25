@@ -1,6 +1,7 @@
 #include "AscendTargetMachine.h"
 #include "Ascend.h"
 #include "TargetInfo/AscendTargetInfo.h"
+#include "llvm/CodeGen/TargetPassConfig.h"
 #include "llvm/MC/TargetRegistry.h"
 #include <optional>
 
@@ -23,4 +24,25 @@ AscendTargetMachine::AscendTargetMachine(const Target &T, const Triple &TT,
           Reloc::Static, getEffectiveCodeModel(CM, CodeModel::Small), OL) {
   ASCEND_DUMP_CYAN
   initAsmInfo();
+}
+
+namespace {
+
+/// Ascend Code Generator Pass Configuration Options.
+class AscendPassConfig : public TargetPassConfig {
+public:
+  AscendPassConfig(AscendTargetMachine &TM, PassManagerBase &PM)
+      : TargetPassConfig(TM, PM) {}
+
+  bool addInstSelector() override {
+    ASCEND_DUMP_CYAN
+    return false;
+  }
+};
+
+} // end anonymous namespace
+
+TargetPassConfig *AscendTargetMachine::createPassConfig(PassManagerBase &PM) {
+  ASCEND_DUMP_CYAN
+  return new AscendPassConfig(*this, PM);
 }
