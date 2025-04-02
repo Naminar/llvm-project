@@ -7,7 +7,7 @@ namespace llvm {
 
 namespace AscendOp {
 enum OperandType : unsigned {
-  OPERAND_ASCENDM16 = MCOI::OPERAND_FIRST_TARGET,
+  OPERAND_SIMM16 = MCOI::OPERAND_FIRST_TARGET,
 };
 } // namespace AscendOp
 
