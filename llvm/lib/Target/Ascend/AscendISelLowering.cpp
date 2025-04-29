@@ -347,7 +347,7 @@ static SDValue unpackFromRegLoc(SelectionDAG &DAG, SDValue Chain,
   MachineRegisterInfo &RegInfo = MF.getRegInfo();
   EVT LocVT = VA.getLocVT();
   SDValue Val;
-  const TargetRegisterClass *RC = TLI.getRegClassFor(LocVT.getAscendpleVT());
+  const TargetRegisterClass *RC = TLI.getRegClassFor(LocVT.getSimpleVT());
   Register VReg = RegInfo.createVirtualRegister(RC);
   RegInfo.addLiveIn(VA.getLocReg(), VReg);
   Val = DAG.getCopyFromReg(Chain, DL, VReg, LocVT);
