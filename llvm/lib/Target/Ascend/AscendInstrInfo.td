@@ -91,12 +91,18 @@ def SIMRAND : AscendInst<0xEC, (outs GPR:$r1), (ins),
                             [(set GPR:$r1, (int_ascend_simrand))]>;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
-def CMPSGT_IMM : AscendInst<0xEB, (outs GPR:$dst), (ins GPR:$src, simm16:$r3_imm),
-                          "cmpSgt $src, $r3_imm, $dst",
-                          [(set GPR:$dst, (setcc GPR:$src, simm16:$r3_imm, SETGT))]>;
+def CMPSGT_IMM : AscendInst<0xEB, (outs GPR:$r2), (ins GPR:$r1, simm16:$r3_imm),
+                          "cmpSgt $r1, $r3_imm, $r2",
+                          [(set GPR:$r2, (setcc GPR:$r1, simm16:$r3_imm, SETGT))]>;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
 def SREMADD : AscendInstDRDIMM<0xAA, (outs GPR:$r1), (ins GPR:$r2, simm16:$r3_imm, simm16:$r4_imm),
              "sremAdd $r1, $r3_imm, $r4_imm, $r2",
              [(set GPR:$r1, (add (srem GPR:$r2, simm16:$r3_imm), simm16:$r4_imm))]>;
 
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0, r4=0 in
+def MULLADDVAL : AscendInstTRSIMM<0xE9,
+                                (outs GPR:$r1),
+                                (ins GPR:$r2, GPR:$r3, simm16:$r5_imm),
+                                "mullAddVal $r2, $r3, $r5_imm, $r1",
+                                [(set GPR:$r1, (add (mul GPR:$r2, GPR:$r3), simm16:$r5_imm))]>;
