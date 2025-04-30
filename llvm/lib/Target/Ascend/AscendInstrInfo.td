@@ -120,3 +120,16 @@ let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
 def ADD : AscendInst<0xE1, (outs GPR:$r1), (ins GPR:$r2, simm16:$r3_imm),
                     "add $r2, $r3_imm, $r1",
                     [(set GPR:$r1, (add GPR:$r2, simm16:$r3_imm))]>;
+
+
+let Namespace = "AscendISD" in {
+  def AscendISD_ADDCMPUGT_IMM_Profile : SDTypeProfile<2, 3, [SDTInt<i32>, SDTInt<i32>, SDTInt<i32>]>;
+  def ADDCMPUGT_IMM : SDNode<"AscendISD::ADDCMPUGT_IMM", AscendISD_ADDCMPUGT_IMM_Profile>;
+}
+
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0, r4 = 0 in
+def ADDCMPUGT_IMM : AscendInstTRDIMM<0xE7,
+                                (outs GPR:$dst_add, GPR:$dst_cmp),
+                                (ins GPR:$src, simm16:$imm_add, simm16:$imm_cmp),
+                                "addCmpUgtContinues $src, $imm_add, $imm_cmp, $dst_add, $dst_cmp",
+                                [(set GPR:$dst_add, GPR:$dst_cmp, (AscendISD_ADDCMPUGT_IMM GPR:$src, simm16:$imm_add, simm16:$imm_cmp))]>;

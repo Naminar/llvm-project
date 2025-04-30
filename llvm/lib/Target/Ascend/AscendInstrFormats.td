@@ -118,3 +118,43 @@ class AscendPseudoInstTRSIMM<dag outs, dag ins, string asmstr, list<dag> pattern
   let isPseudo = 1;
   let isCodeGenOnly = 1;
 }
+
+
+class AscendInstTRDIMM<bits<8> op, dag outs, dag ins, string asmstr, list<dag> pattern>: Instruction
+{
+  // Inst and Size: for tablegen(... -gen-emitter) and
+  // tablegen(... -gen-disassembler) in CMakeLists.txt
+  let Namespace = "Ascend";
+  let DecoderNamespace = "Ascend";
+  let Size = 7;
+
+  field bits<56> Inst;
+
+  bits<8> Opcode = op;
+  bits<4>  r1;
+  bits<4>  r2;
+  bits<4>  r3;
+  bits<4>  r4;
+  bits<16> r5_imm;
+  bits<16> r6_imm;
+
+  let Inst{55-48} = Opcode;
+  let Inst{47-44} = r1;
+  let Inst{43-40} = r2;
+  let Inst{39-36} = r3;
+  let Inst{35-32} = r4;
+  let Inst{31-16} = r5_imm;
+  let Inst{15-0}  = r6_imm;
+
+  let OutOperandList = outs;
+  let InOperandList  = ins;
+  let AsmString   = asmstr;
+  let Pattern     = pattern;
+}
+
+// Pseudo instructions format
+class AscendPseudoInstTRDIMM<dag outs, dag ins, string asmstr, list<dag> pattern>
+   : AscendInstTRSIMM<0, outs, ins, asmstr, pattern> {
+  let isPseudo = 1;
+  let isCodeGenOnly = 1;
+}
