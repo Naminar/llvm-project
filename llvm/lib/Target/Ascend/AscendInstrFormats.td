@@ -45,3 +45,39 @@ class AscendPseudoInst<dag outs, dag ins, string asmstr, list<dag> pattern>
   let isPseudo = 1;
   let isCodeGenOnly = 1;
 }
+
+
+class AscendInstDRDIMM<bits<8> op, dag outs, dag ins, string asmstr, list<dag> pattern>: Instruction
+{
+  // Inst and Size: for tablegen(... -gen-emitter) and
+  // tablegen(... -gen-disassembler) in CMakeLists.txt
+  let Namespace = "Ascend";
+  let DecoderNamespace = "Ascend";
+  let Size = 6;
+
+  field bits<48> Inst;
+
+  bits<8> Opcode = op;
+  bits<4>  r1;
+  bits<4>  r2;
+  bits<16> r3_imm;
+  bits<16> r4_imm;
+
+  let Inst{47-40} = Opcode;
+  let Inst{39-36} = r1;
+  let Inst{35-32} = r2;
+  let Inst{31-16} = r3_imm;
+  let Inst{15-0}  = r4_imm;
+
+  let OutOperandList = outs;
+  let InOperandList  = ins;
+  let AsmString   = asmstr;
+  let Pattern     = pattern;
+}
+
+// Pseudo instructions format
+class AscendPseudoInstDRDIMM<dag outs, dag ins, string asmstr, list<dag> pattern>
+   : AscendInstDRDIMM<0, outs, ins, asmstr, pattern> {
+  let isPseudo = 1;
+  let isCodeGenOnly = 1;
+}

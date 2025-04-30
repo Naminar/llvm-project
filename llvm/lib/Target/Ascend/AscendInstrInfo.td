@@ -89,3 +89,14 @@ let hasSideEffects = 1, mayLoad = 0, mayStore = 0, isCall = 1, r2 = 0, r3_imm = 
 def SIMRAND : AscendInst<0xEC, (outs GPR:$r1), (ins),
                             "tcall simRand $r1",
                             [(set GPR:$r1, (int_ascend_simrand))]>;
+
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
+def CMPSGT_IMM : AscendInst<0xEB, (outs GPR:$dst), (ins GPR:$src, simm16:$r3_imm),
+                          "cmpSgt $src, $r3_imm, $dst",
+                          [(set GPR:$dst, (setcc GPR:$src, simm16:$r3_imm, SETGT))]>;
+
+let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
+def SREMADD : AscendInstDRDIMM<0xAA, (outs GPR:$r1), (ins GPR:$r2, simm16:$r3_imm, simm16:$r4_imm),
+             "sremAdd $r1, $r3_imm, $r4_imm, $r2",
+             [(set GPR:$r1, (add (srem GPR:$r2, simm16:$r3_imm), simm16:$r4_imm))]>;
+
