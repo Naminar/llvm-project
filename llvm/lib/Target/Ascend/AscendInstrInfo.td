@@ -117,6 +117,6 @@ def MOV : AscendInst<0xE0, (outs GPR:$r1), (ins GPR:$r2),
               "MOV $r1, $r2", [(set GPR:$r1, GPR:$r2)]>;
 
 let hasSideEffects = 0, mayLoad = 0, mayStore = 0 in
-def ADDi : AscendInst<0xE1, (outs GPR:$r1), (ins GPR:$r2, simm16:$r3_imm),
+def ADD : AscendInst<0xE1, (outs GPR:$r1), (ins GPR:$r2, simm16:$r3_imm),
                     "add $r2, $r3_imm, $r1",
                     [(set GPR:$r1, (add GPR:$r2, simm16:$r3_imm))]>;
