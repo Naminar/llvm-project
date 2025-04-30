@@ -111,3 +111,7 @@ let hasSideEffects = 1, mayLoad = 0, mayStore = 0, isCall = 1, r4 = 0, r5_imm = 
 def CTCALL : AscendInstTRSIMM<0xE8, (outs), (ins GPR:$r1, GPR:$r2, GPR:$r3),
                                 "ctcall simFlush, simPutPixel, $r1, $r2, $r3",
                                 [(int_ascend_flush (int_ascend_putpixel GPR:$r1, GPR:$r2, GPR:$r3))]>;
+
+let isMove = 1, isAsCheapAsAMove = 1, hasSideEffects = 0, mayLoad = 0, mayStore = 0, r3_imm = 0 in
+def MOV : AscendInst<0xE0, (outs GPR:$r1), (ins GPR:$r2), 
+              "MOV $r1, $r2", [(set GPR:$r1, GPR:$r2)]>;
