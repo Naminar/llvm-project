@@ -80,7 +80,12 @@ def FLUSH : AscendInst<0xFF, (outs), (ins), "FLUSH", [(int_ascend_flush)]>;
 def PUTPIXEL : AscendInst<0xEE, (outs), (ins GPR:$r1, GPR:$r2, GPR:$r3_imm),
                       "PUTPIXEL $r1 $r2 $r3_imm", [(int_ascend_putpixel GPR:$r1, GPR:$r2, GPR:$r3_imm)]>;
 
- let hasSideEffects = 1, mayLoad = 0, mayStore = 0, r2 = 0 in
- def CALLSREM_SIMRAND_IMM : AscendInst<0xED, (outs GPR:$r1), (ins simm16:$r3_imm),
-                                    "callSrem simRand, $r3_imm, $r1",
-                                    [(set GPR:$r1, (srem (int_ascend_simrand), simm16:$r3_imm))]>;
+let hasSideEffects = 1, mayLoad = 0, mayStore = 0, r2 = 0 in
+def CALLSREM_SIMRAND_IMM : AscendInst<0xED, (outs GPR:$r1), (ins simm16:$r3_imm),
+                                  "callSrem simRand, $r3_imm, $r1",
+                                  [(set GPR:$r1, (srem (int_ascend_simrand), simm16:$r3_imm))]>;
+
+let hasSideEffects = 1, mayLoad = 0, mayStore = 0, isCall = 1, r2 = 0, r3_imm = 0 in
+def SIMRAND : AscendInst<0xEC, (outs GPR:$r1), (ins),
+                            "tcall simRand $r1",
+                            [(set GPR:$r1, (int_ascend_simrand))]>;
