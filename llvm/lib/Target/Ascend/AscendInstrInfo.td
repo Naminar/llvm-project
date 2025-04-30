@@ -106,3 +106,8 @@ def MULLADDVAL : AscendInstTRSIMM<0xE9,
                                 (ins GPR:$r2, GPR:$r3, simm16:$r5_imm),
                                 "mullAddVal $r2, $r3, $r5_imm, $r1",
                                 [(set GPR:$r1, (add (mul GPR:$r2, GPR:$r3), simm16:$r5_imm))]>;
+
+let hasSideEffects = 1, mayLoad = 0, mayStore = 0, isCall = 1, r4 = 0, r5_imm = 0 in
+def CTCALL : AscendInstTRSIMM<0xE8, (outs), (ins GPR:$r1, GPR:$r2, GPR:$r3),
+                                "ctcall simFlush, simPutPixel, $r1, $r2, $r3",
+                                [(int_ascend_flush (int_ascend_putpixel GPR:$r1, GPR:$r2, GPR:$r3))]>;
