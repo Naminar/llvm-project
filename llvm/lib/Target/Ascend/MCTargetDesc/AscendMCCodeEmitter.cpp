@@ -1,3 +1,4 @@
+#include "MCTargetDesc/AscendFixupKinds.h"
 #include "MCTargetDesc/AscendMCTargetDesc.h"
 #include "Ascend.h"
 #include "llvm/ADT/SmallVector.h"
@@ -129,6 +130,9 @@ AscendMCCodeEmitter::getBranchTarget16OpValue(const MCInst &MI, unsigned OpNo,
 
   assert(MO.isExpr() &&
          "getBranchTarget16OpValue expects only expressions or immediates");
+
+  Fixups.push_back(
+      MCFixup::create(0, MO.getExpr(), MCFixupKind(Ascend::fixup_Ascend_PC16)));
   return 0;
 }
 
